@@ -8,26 +8,23 @@ import java.util.Set;
 import com.utn.frm.desarrollosoftware.enums.Estado;
 import com.utn.frm.desarrollosoftware.enums.FormaPago;
 
-public class Pedido extends Base{ //implements Calculable
+public class Pedido extends Base implements Calculable{
     private LocalDate fecha;
     private Estado estado;
     private Double total;
     private FormaPago formaPago;
     private final Set<DetallePedido> detalles = new HashSet<>();
 
-    public Pedido(Long id, Double total, FormaPago formaPago) {
+    public Pedido(Long id, FormaPago formaPago) {
         super(id);
         this.fecha = LocalDate.now();
         this.estado = Estado.PENDIENTE;
         this.formaPago = formaPago;
         this.total = 0.0;
-
     }
 
-    /*
-
     public void addDetallePedido(Long id, int cantidad, Producto producto){
-        DetallePedido nuevoDetalle = new DetallePedido(id, cantidad, producto);
+        DetallePedido nuevoDetalle = new DetallePedido(id, producto, cantidad);
         nuevoDetalle.setPedido(this);
         this.detalles.add(nuevoDetalle);
         producto.setStock(producto.getStock() - cantidad);
@@ -35,14 +32,22 @@ public class Pedido extends Base{ //implements Calculable
     }
 
     public DetallePedido findDetallePedidoByProducto(Producto producto){
-
+        for (DetallePedido detalle : detalles){
+            if (Objects.equals(detalle.getProducto(), producto)){
+                return detalle;
+            }
+        }
+        return null;
     }
 
     public void deleteDetallePedidoByProducto(Producto producto) {
-
+        DetallePedido detalleEliminar = findDetallePedidoByProducto(producto);
+        this.detalles.remove(detalleEliminar);
+        calcularTotal();
+        detalleEliminar.setEliminado(true);
+        producto.setStock(producto.getStock() + detalleEliminar.getCantidad());
     }
 
-    */
 
     public LocalDate getFecha() {
         return fecha;
@@ -72,8 +77,6 @@ public class Pedido extends Base{ //implements Calculable
         this.formaPago = formaPago;
     }
 
-    /* REVISAR TODOS --------------------------------------------------------------------------
-
     @Override
     public void calcularTotal(){
         for (DetallePedido detalle : detalles) {
@@ -84,8 +87,8 @@ public class Pedido extends Base{ //implements Calculable
     @Override
     public String toString(){
         return String.format(
-                "entities.Pedido{id='%d', fecha='%s', estado='%s', total='%f', formaPago='%s', perteneceA='%s', cantDetalle='%d', creado='%s', eliminado='%b'}",
-                getId(), fecha, estado, total, formaPago, perteneceA, detalles.size(), getCreated(), isEliminado()
+                "entities.Pedido{id='%d', fecha='%s', estado='%s', total='%f', formaPago='%s', cantDetalle='%d', eliminado='%b'}",
+                getId(), fecha, estado, total, formaPago, detalles.size(), isEliminado()
         );
     }
 
@@ -101,7 +104,5 @@ public class Pedido extends Base{ //implements Calculable
     public int hashCode(){
         return Objects.hash(getId());
     }
-    */
-
 }
 

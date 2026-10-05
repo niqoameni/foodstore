@@ -1,7 +1,9 @@
 package com.utn.frm.desarrollosoftware.entities;
 
+import com.utn.frm.desarrollosoftware.enums.FormaPago;
 import com.utn.frm.desarrollosoftware.enums.Rol;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Usuario extends Base{
@@ -23,10 +25,11 @@ public class Usuario extends Base{
         this.rol = rol;
     }
 
-    public void agregarPedido(Pedido pedido){
-        if (pedido != null){
-            this.pedidos.add(pedido);
-        }
+    //Metodo que crea un pedido y lo vincula con el usuario que lo hizo, cumpliendo la unidireccionalidad
+    public Pedido crearPedido(Long id, FormaPago formaPago){
+        Pedido nuevoPedido = new Pedido(id, formaPago);
+        this.pedidos.add(nuevoPedido);
+        return nuevoPedido;
     }
 
 
@@ -82,12 +85,12 @@ public class Usuario extends Base{
         this.rol = rol;
     }
 
-    /* REVISAR TODOS
+
     @Override
     public String toString(){
         return String.format(
                 "entities.Usuario{id='%d', nombre='%s', apellido='%s', mail='%s', celular='%s', rol='%s', cantPedidos='%d', creado='%s', eliminado='%b'}",
-                getId(), nombre, apellido, mail, celular, rol, pedidos.size(), getCreated(), isEliminado()
+                getId(), nombre, apellido, mail, celular, rol, pedidos.size(), getCreatedAt(), isEliminado()
         );
     }
 
@@ -104,5 +107,4 @@ public class Usuario extends Base{
         return Objects.hash(getId());
     }
 
-     */
 }
