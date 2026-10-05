@@ -11,7 +11,7 @@ public class Producto extends Base{
     private boolean disponible;
     private Categoria categoria;
 
-    public Producto(Long id, String nombre, Double precio, String descripcion, int stock, String imagen, boolean disponible, Categoria categoria) {
+    public Producto(Long id, String nombre, Double precio, String descripcion, int stock, String imagen, Categoria categoria) {
         super(id);
         this.nombre = nombre;
         this.precio = precio;

@@ -85,7 +85,6 @@ public class Usuario extends Base{
         this.rol = rol;
     }
 
-
     @Override
     public String toString(){
         return String.format(
